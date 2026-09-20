@@ -1,0 +1,1899 @@
+
+<!DOCTYPE html> 
+<html lang="tr"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+    <title>HypEiswskr | CS2 Oyuncu Profili</title> 
+ 
+    <style> 
+ 
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        } 
+ 
+        body { 
+            min-height: 100vh; 
+            background: #0b1224; 
+            color: #d8deea; 
+            font-family: "Segoe UI", Arial, sans-serif; 
+        } 
+ 
+        header { 
+            height: 82px; 
+            padding: 0 55px; 
+            display: flex; 
+            align-items: center; 
+            border-bottom: 1px solid #202d46; 
+        } 
+ 
+        .player { 
+            display: flex; 
+            align-items: center; 
+            margin-right: 38px; 
+            flex-shrink: 0; 
+        } 
+ 
+        .wesker-frame { 
+            position: relative; 
+            width: 60px; 
+            height: 60px; 
+            margin-right: 14px; 
+            overflow: hidden; 
+            border: 1px solid #c4cad4; 
+            border-radius: 7px; 
+            background: #151d2e; 
+            transform: rotate(-2deg); 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); 
+            transition: 
+                transform 0.28s ease, 
+                box-shadow 0.28s ease, 
+                border-color 0.28s ease; 
+        } 
+ 
+        .wesker-frame img { 
+            width: 100%; 
+            height: 100%; 
+            display: block; 
+            object-fit: cover; 
+            object-position: center center; 
+            transform: scale(1.05); 
+            transition: transform 0.35s ease; 
+        } 
+ 
+        .wesker-frame:hover { 
+            transform: rotate(0deg) translateY(-3px) scale(1.06); 
+            border-color: #e0e4eb; 
+            box-shadow: 
+                0 7px 18px rgba(0, 0, 0, 0.32), 
+                0 0 12px rgba(180, 195, 220, 0.09); 
+        } 
+ 
+        .wesker-frame:hover img { 
+            transform: scale(1.11); 
+        } 
+ 
+        .name-area { 
+            display: flex; 
+            align-items: center; 
+            height: 46px; 
+        } 
+ 
+        .player-name { 
+            position: relative; 
+            font-size: 27px; 
+            font-weight: 500; 
+            font-style: italic; 
+            letter-spacing: 1.2px; 
+            color: #ff3344; 
+            text-shadow: 
+                0 0 5px rgba(255, 40, 55, 0.45), 
+                0 0 12px rgba(255, 30, 45, 0.22); 
+            transition: 
+                color 0.25s ease, 
+                text-shadow 0.25s ease, 
+                transform 0.25s ease; 
+        } 
+ 
+        .player-name:hover { 
+            color: #ff4a58; 
+            text-shadow: 
+                0 0 7px rgba(255, 45, 60, 0.55), 
+                0 0 15px rgba(255, 30, 45, 0.28); 
+            transform: translateY(-1px); 
+        } 
+ 
+        .steam-note { 
+            margin-top: 3px; 
+            color: #71809a; 
+            font-size: 12px; 
+            font-weight: 400; 
+            letter-spacing: 0.35px; 
+            opacity: 0.85; 
+        } 
+ 
+        nav { 
+            display: flex; 
+            align-items: center; 
+            height: 100%; 
+            flex: 1; 
+        } 
+ 
+        nav a { 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 48px; 
+            min-width: 0; 
+            padding: 0 38px; 
+            white-space: nowrap; 
+            color: #aebbd0; 
+            text-decoration: none; 
+            font-size: 18px; 
+            font-weight: 600; 
+            letter-spacing: 1.2px; 
+            border-left: 1px solid #293650; 
+            transition: 
+                color 0.28s ease, 
+                background 0.28s ease, 
+                transform 0.28s ease, 
+                text-shadow 0.28s ease, 
+                border-color 0.28s ease; 
+        } 
+ 
+        nav a:hover { 
+            color: #4da3ff; 
+            background: 
+                linear-gradient( 
+                    90deg, 
+                    rgba(50, 130, 220, 0.04), 
+                    rgba(50, 130, 220, 0.13), 
+                    rgba(50, 130, 220, 0.04) 
+                ); 
+            border-color: #31547f; 
+            transform: translateY(-2px); 
+            text-shadow: 0 0 8px rgba(55, 155, 255, 0.45); 
+        } 
+ 
+        nav a::after { 
+            content: ""; 
+            position: absolute; 
+            left: 18px; 
+            right: 18px; 
+            bottom: 0; 
+            height: 2px; 
+            background: #3d9cff; 
+            box-shadow: 0 0 8px rgba(61, 156, 255, 0.45); 
+            transform: scaleX(0); 
+            transform-origin: center; 
+            transition: transform 0.3s ease; 
+        } 
+ 
+        nav a:hover::after { 
+            transform: scaleX(1); 
+        } 
+ 
+        main { 
+            padding: 45px 55px; 
+        } 
+ 
+        .page-content { 
+            animation: pageOpen 0.45s ease; 
+        } 
+ 
+        @keyframes pageOpen { 
+            from { 
+                opacity: 0; 
+                transform: translateY(18px); 
+            } 
+ 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+        } 
+ 
+        .profile-title { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 27px; 
+            font-weight: 800; 
+            letter-spacing: 3px; 
+            color: #e8edf5; 
+            margin-bottom: 28px; 
+            text-shadow: 0 0 8px rgba(120, 160, 220, 0.15); 
+        } 
+ 
+        .profile-top { 
+            display: grid; 
+            grid-template-columns: 1.15fr 0.85fr; 
+            gap: 22px; 
+            margin-bottom: 22px; 
+        } 
+ 
+        .profile-card { 
+            padding: 28px 30px; 
+            min-height: 160px; 
+            background: #101a2f; 
+            border: 1px solid #243451; 
+            border-radius: 10px; 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18); 
+            transition: 
+                border-color 0.25s ease, 
+                transform 0.25s ease, 
+                box-shadow 0.25s ease; 
+        } 
+ 
+        .profile-card:hover { 
+            transform: translateY(-3px); 
+            border-color: #31547f; 
+            box-shadow: 
+                0 10px 28px rgba(0, 0, 0, 0.25), 
+                0 0 15px rgba(60, 130, 210, 0.05); 
+        } 
+ 
+        .card-title { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            color: #718bb5; 
+            font-size: 13px; 
+            font-weight: 800; 
+            letter-spacing: 2.2px; 
+            margin-bottom: 18px; 
+        } 
+ 
+        .profile-player { 
+            display: flex; 
+            align-items: center; 
+            gap: 18px; 
+        } 
+ 
+        .profile-photo { 
+            width: 72px; 
+            height: 72px; 
+            flex-shrink: 0; 
+            overflow: hidden; 
+            border-radius: 9px; 
+            border: 1px solid #40516f; 
+            background: #0b1427; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); 
+            transition: 
+                transform 0.25s ease, 
+                border-color 0.25s ease, 
+                box-shadow 0.25s ease; 
+        } 
+ 
+        .profile-photo:hover { 
+            transform: scale(1.05); 
+            border-color: #4d79aa; 
+            box-shadow: 
+                0 7px 18px rgba(0, 0, 0, 0.3), 
+                0 0 12px rgba(60, 140, 230, 0.12); 
+        } 
+ 
+        .profile-photo img { 
+            width: 100%; 
+            height: 100%; 
+            display: block; 
+            object-fit: cover; 
+        } 
+ 
+        .nickname { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 27px; 
+            font-weight: 700; 
+            color: #edf2f9; 
+            margin-bottom: 8px; 
+            letter-spacing: 0.8px; 
+        } 
+ 
+        .steam-level { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            width: 29px; 
+            height: 29px; 
+            border: 2px solid #d00000; 
+            border-radius: 50%; 
+            color: #f0f3f8; 
+            background: 
+                radial-gradient( 
+                    circle, 
+                    #35101a 0%, 
+                    #170d16 70%, 
+                    #0d1220 100% 
+                ); 
+            font-family: 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 12px; 
+            font-weight: 800; 
+            letter-spacing: 0; 
+            box-shadow: 
+                0 0 7px rgba(210, 0, 0, 0.22), 
+                inset 0 0 5px rgba(210, 0, 0, 0.12); 
+        } 
+ 
+        .location { 
+            color: #b7c1d1; 
+            font-size: 16px; 
+            letter-spacing: 0.7px; 
+        } 
+ 
+        .style-main { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 23px; 
+            font-weight: 700; 
+            color: #e5ebf4; 
+            margin-bottom: 7px; 
+            letter-spacing: 0.5px; 
+        } 
+ 
+        .style-sub { 
+            color: #8d9ab0; 
+            font-size: 15px; 
+            letter-spacing: 0.5px; 
+        } 
+ 
+        .profile-bottom { 
+            display: grid; 
+            grid-template-columns: 0.8fr 1.2fr; 
+            gap: 22px; 
+            margin-bottom: 22px; 
+        } 
+ 
+        .maps-card { 
+            padding: 25px 28px; 
+            background: #101a2f; 
+            border: 1px solid #243451; 
+            border-radius: 10px; 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18); 
+        } 
+ 
+        .maps-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+        } 
+ 
+        .map { 
+            display: flex; 
+            align-items: center; 
+            padding: 11px 14px; 
+            background: #0c1528; 
+            border: 1px solid #253858; 
+            border-radius: 7px; 
+            transition: 
+                transform 0.25s ease, 
+                border-color 0.25s ease, 
+                background 0.25s ease; 
+        } 
+ 
+        .map:hover { 
+            transform: translateX(4px); 
+            border-color: #3d7fba; 
+            background: #0e1a30; 
+        } 
+ 
+        .map-number { 
+            width: 35px; 
+            color: #718bb5; 
+            font-size: 12px; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+        } 
+ 
+        .map-name { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 16px; 
+            font-weight: 700; 
+            color: #dce4ef; 
+        } 
+ 
+        .favorite-map { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            min-height: 55px; 
+            margin-top: 10px; 
+            padding: 13px 16px; 
+            background: 
+                linear-gradient( 
+                    135deg, 
+                    #0d1a30, 
+                    #10203a 
+                ); 
+            border: 1px solid #31547f; 
+            border-radius: 7px; 
+            transition: 
+                transform 0.25s ease, 
+                border-color 0.25s ease, 
+                box-shadow 0.25s ease; 
+        } 
+ 
+        .favorite-map:hover { 
+            transform: translateX(4px); 
+            border-color: #4b91d0; 
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.18), 
+                0 0 10px rgba(60, 140, 230, 0.06); 
+        } 
+ 
+        .favorite-map-label { 
+            color: #718bb5; 
+            font-size: 11px; 
+            font-weight: 800; 
+            letter-spacing: 1.5px; 
+        } 
+ 
+        .favorite-map-name { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            color: #e7edf6; 
+            font-size: 17px; 
+            font-weight: 800; 
+            letter-spacing: 0.5px; 
+        } 
+ 
+        .highlights-card { 
+            padding: 25px 28px; 
+            background: 
+                linear-gradient( 
+                    135deg, 
+                    #101a2f, 
+                    #111d34 
+                ); 
+            border: 1px solid #243451; 
+            border-radius: 10px; 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18); 
+        } 
+ 
+        .highlights-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 9px; 
+        } 
+ 
+        .highlight-box { 
+            padding: 14px 16px; 
+            background: #0c1528; 
+            border: 1px solid #253858; 
+            border-radius: 8px; 
+            transition: 
+                transform 0.25s ease, 
+                border-color 0.25s ease, 
+                box-shadow 0.25s ease; 
+        } 
+ 
+        .highlight-box:hover { 
+            transform: translateX(4px); 
+            border-color: #3d7fba; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.18); 
+        } 
+ 
+        .highlight-value { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 19px; 
+            font-weight: 900; 
+            color: #e7edf6; 
+            line-height: 1.2; 
+            letter-spacing: 0.8px; 
+            margin-bottom: 4px; 
+        } 
+ 
+        .highlight-label { 
+            color: #697991; 
+            font-size: 11px; 
+            line-height: 1.3; 
+            letter-spacing: 0.5px; 
+        } 
+ 
+        .settings-menu { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 14px; 
+        } 
+ 
+        .settings-tab { 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            min-height: 76px; 
+            padding: 0 24px; 
+            background: 
+                linear-gradient( 
+                    135deg, 
+                    #101a2f, 
+                    #111d34 
+                ); 
+            border: 1px solid #243451; 
+            border-radius: 10px; 
+            color: #dce4ef; 
+            text-decoration: none; 
+            overflow: hidden; 
+            transition: 
+                transform 0.28s ease, 
+                border-color 0.28s ease, 
+                background 0.28s ease, 
+                box-shadow 0.28s ease; 
+        } 
+ 
+        .settings-tab::before { 
+            content: ""; 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+            width: 3px; 
+            height: 100%; 
+            background: #3d9cff; 
+            transform: scaleY(0); 
+            transform-origin: bottom; 
+            transition: transform 0.3s ease; 
+        } 
+ 
+        .settings-tab:hover { 
+            transform: translateY(-3px); 
+            border-color: #3d7fba; 
+            background: 
+                linear-gradient( 
+                    135deg, 
+                    #111d34, 
+                    #14213b 
+                ); 
+            box-shadow: 
+                0 9px 24px rgba(0, 0, 0, 0.22), 
+                0 0 14px rgba(60, 140, 230, 0.07); 
+        } 
+ 
+        .settings-tab:hover::before { 
+            transform: scaleY(1); 
+        } 
+ 
+        .settings-tab-name { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 16px; 
+            font-weight: 700; 
+            letter-spacing: 0.6px; 
+        } 
+ 
+        .settings-arrow { 
+            color: #718bb5; 
+            font-size: 21px; 
+            transition: 
+                transform 0.25s ease, 
+                color 0.25s ease; 
+        } 
+ 
+        .settings-tab:hover .settings-arrow { 
+            transform: translateX(5px); 
+            color: #4da3ff; 
+        } 
+ 
+        .setting-page { 
+            animation: settingPageOpen 0.5s cubic-bezier(0.22, 1, 0.36, 1); 
+        } 
+ 
+        @keyframes settingPageOpen { 
+ 
+            0% { 
+                opacity: 0; 
+                transform: 
+                    translateY(28px) 
+                    scale(0.98); 
+            } 
+ 
+            60% { 
+                opacity: 1; 
+                transform: 
+                    translateY(-3px) 
+                    scale(1.005); 
+            } 
+ 
+            100% { 
+                opacity: 1; 
+                transform: 
+                    translateY(0) 
+                    scale(1); 
+            } 
+ 
+        } 
+ 
+        .setting-top { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            margin-bottom: 28px; 
+        } 
+ 
+        .setting-page-title { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 28px; 
+            font-weight: 900; 
+            letter-spacing: 2.5px; 
+            color: #e8edf5; 
+            text-shadow: 
+                0 0 10px rgba(100, 160, 230, 0.12); 
+        } 
+ 
+        .back-settings { 
+            position: relative; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 9px; 
+            padding: 11px 17px; 
+            background: #0c1528; 
+            border: 1px solid #2a4265; 
+            border-radius: 8px; 
+            color: #91a4c0; 
+            cursor: pointer; 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            font-size: 13px; 
+            font-weight: 700; 
+            letter-spacing: 0.6px; 
+            overflow: hidden; 
+            transition: 
+                color 0.25s ease, 
+                border-color 0.25s ease, 
+                background 0.25s ease, 
+                transform 0.25s ease, 
+                box-shadow 0.25s ease; 
+        } 
+ 
+        .back-settings::before { 
+            content: ""; 
+            position: absolute; 
+            inset: 0; 
+            background: 
+                linear-gradient( 
+                    90deg, 
+                    transparent, 
+                    rgba(61, 156, 255, 0.08), 
+                    transparent 
+                ); 
+            transform: translateX(-100%); 
+            transition: transform 0.45s ease; 
+        } 
+ 
+        .back-settings:hover { 
+            color: #4da3ff; 
+            border-color: #3d7fba; 
+            background: #0e1a30; 
+            transform: translateX(-3px); 
+            box-shadow: 
+                0 5px 16px rgba(0, 0, 0, 0.20), 
+                0 0 10px rgba(61, 156, 255, 0.06); 
+        } 
+ 
+        .back-settings:hover::before { 
+            transform: translateX(100%); 
+        } 
+ 
+        .back-arrow { 
+            font-size: 18px; 
+            line-height: 1; 
+            transition: transform 0.25s ease; 
+        } 
+ 
+        .back-settings:hover .back-arrow { 
+            transform: translateX(-3px); 
+        } 
+ 
+        .setting-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 18px; 
+        } 
+ 
+        .setting-card { 
+            padding: 25px 28px; 
+            background: 
+                linear-gradient( 
+                    135deg, 
+                    #101a2f, 
+                    #111d34 
+                ); 
+            border: 1px solid #243451; 
+            border-radius: 10px; 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.18); 
+            animation: cardAppear 0.45s ease both; 
+        } 
+ 
+        .setting-card:nth-child(1) { 
+            animation-delay: 0.06s; 
+        } 
+ 
+        .setting-card:nth-child(2) { 
+            animation-delay: 0.11s; 
+        } 
+ 
+        .setting-card:nth-child(3) { 
+            animation-delay: 0.16s; 
+        } 
+ 
+        .setting-card:nth-child(4) { 
+            animation-delay: 0.21s; 
+        } 
+ 
+        @keyframes cardAppear { 
+ 
+            from { 
+                opacity: 0; 
+                transform: translateY(14px); 
+            } 
+ 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+ 
+        } 
+ 
+        .setting-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+        } 
+ 
+        .setting-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 12px 14px; 
+            background: #0c1528; 
+            border: 1px solid #253858; 
+            border-radius: 7px; 
+            transition: 
+                border-color 0.25s ease, 
+                transform 0.25s ease; 
+        } 
+ 
+        .setting-row:hover { 
+            border-color: #31547f; 
+            transform: translateX(3px); 
+        } 
+ 
+        .setting-name { 
+            color: #8d9ab0; 
+            font-size: 14px; 
+        } 
+ 
+        .setting-value { 
+            color: #e1e7f0; 
+            font-size: 14px; 
+            font-weight: 700; 
+        } 
+ 
+        /* HARİTA İSTATİSTİKLERİ */ 
+ 
+        .map-stats-note { 
+            color: #7888a2; 
+            font-size: 13px; 
+            letter-spacing: 0.3px; 
+            margin-top: -13px; 
+            margin-bottom: 25px; 
+        } 
+ 
+        .map-stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 16px; 
+        } 
+ 
+        .map-stat-card { 
+            position: relative; 
+            padding: 21px 22px; 
+            background: 
+                linear-gradient( 
+                    135deg, 
+                    #101a2f, 
+                    #111d34 
+                ); 
+            border: 1px solid #243451; 
+            border-radius: 10px; 
+            overflow: hidden; 
+            transition: 
+                transform 0.28s ease, 
+                border-color 0.28s ease, 
+                box-shadow 0.28s ease, 
+                background 0.28s ease; 
+        } 
+ 
+        .map-stat-card:hover { 
+            transform: translateY(-3px); 
+            border-color: #3d7fba; 
+            background: 
+                linear-gradient( 
+                    135deg, 
+                    #111d34, 
+                    #14213b 
+                ); 
+            box-shadow: 
+                0 9px 24px rgba(0, 0, 0, 0.22), 
+                0 0 14px rgba(60, 140, 230, 0.07); 
+        } 
+ 
+        .map-stat-top { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            margin-bottom: 13px; 
+        } 
+ 
+        .map-stat-name { 
+            font-family: 
+                "Trebuchet MS", 
+                "Segoe UI", 
+                Arial, 
+                sans-serif; 
+            color: #e4eaf3; 
+            font-size: 18px; 
+            font-weight: 800; 
+            letter-spacing: 0.5px; 
+        } 
+ 
+        .map-stat-score { 
+            color: #8294b1; 
+            font-size: 13px; 
+            font-weight: 700; 
+        } 
+ 
+        .stars { 
+            position: relative; 
+            display: inline-block; 
+            font-size: 23px; 
+            line-height: 1; 
+            letter-spacing: 2px; 
+            white-space: nowrap; 
+        } 
+ 
+        .stars-empty { 
+            color: #303d54; 
+        } 
+ 
+        .stars-fill { 
+            position: absolute; 
+            left: 0; 
+            top: 0; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            color: #dce4ef; 
+            width: var(--rating); 
+        } 
+ 
+        @media (max-width: 900px) { 
+ 
+            header { 
+                padding: 0 25px; 
+            } 
+ 
+            .player { 
+                margin-right: 15px; 
+            } 
+ 
+            nav a { 
+                min-width: auto; 
+                padding: 0 15px; 
+                font-size: 13px; 
+                letter-spacing: 0.5px; 
+            } 
+ 
+            nav a::after { 
+                left: 8px; 
+                right: 8px; 
+            } 
+ 
+            .player-name { 
+                font-size: 23px; 
+            } 
+ 
+            .wesker-frame { 
+                width: 52px; 
+                height: 52px; 
+            } 
+ 
+            main { 
+                padding: 30px 25px; 
+            } 
+ 
+            .profile-top { 
+                grid-template-columns: 1.15fr 0.85fr; 
+            } 
+ 
+            .profile-bottom { 
+                grid-template-columns: 0.8fr 1.2fr; 
+            } 
+ 
+            .settings-menu { 
+                grid-template-columns: 1fr; 
+            } 
+ 
+            .setting-grid { 
+                grid-template-columns: 1fr; 
+            } 
+ 
+            .map-stats-grid { 
+                grid-template-columns: 1fr; 
+            } 
+ 
+        } 
+ 
+        @media (max-width: 600px) { 
+ 
+            header { 
+                height: auto; 
+                min-height: 82px; 
+                flex-wrap: wrap; 
+                padding-top: 12px; 
+                padding-bottom: 12px; 
+            } 
+ 
+            nav { 
+                width: 100%; 
+                margin-top: 12px; 
+            } 
+ 
+            nav a { 
+                flex: 1; 
+                min-width: 0; 
+                padding: 0 7px; 
+                font-size: 10px; 
+            } 
+ 
+            .profile-top { 
+                grid-template-columns: 1fr; 
+            } 
+ 
+            .profile-bottom { 
+                grid-template-columns: 1fr; 
+            } 
+ 
+            .profile-player { 
+                gap: 13px; 
+            } 
+ 
+            .profile-photo { 
+                width: 60px; 
+                height: 60px; 
+            } 
+ 
+            .nickname { 
+                font-size: 22px; 
+            } 
+ 
+            .location { 
+                font-size: 14px; 
+            } 
+ 
+            .setting-top { 
+                align-items: flex-start; 
+                flex-direction: column; 
+                gap: 16px; 
+            } 
+ 
+            .setting-page-title { 
+                font-size: 23px; 
+            } 
+ 
+            .back-settings { 
+                font-size: 12px; 
+            } 
+ 
+        } 
+ 
+    </style> 
+</head> 
+ 
+<body> 
+ 
+    <header> 
+ 
+        <div class="player"> 
+ 
+            <div class="wesker-frame"> 
+ 
+                <img 
+                    src="data:image/jpeg;base64,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" alt="" width="236" height="236" />
+                    alt="Albert Wesker"
+                >
+
+                    alt="Albert Wesker" 
+                > 
+ 
+            </div> 
+ 
+            <div class="name-area"> 
+ 
+                <div> 
+ 
+                    <div class="player-name"> 
+                        HypEiswskr 
+                    </div> 
+ 
+                    <div class="steam-note"> 
+                        Steam profili • CS2 oyuncu profili 
+                    </div> 
+ 
+                </div> 
+ 
+            </div> 
+ 
+        </div> 
+ 
+        <nav> 
+ 
+            <a href="#" onclick="showPage('profile'); return false;"> 
+                Profil 
+            </a> 
+ 
+            <a href="#" onclick="showPage('settings'); return false;"> 
+                Oyun İçi Ayarlar 
+            </a> 
+ 
+            <a href="#" onclick="showPage('mapstats'); return false;"> 
+                Harita İstatistikleri 
+            </a> 
+ 
+        </nav> 
+ 
+    </header> 
+ 
+    <main> 
+ 
+        <div id="content" class="page-content"></div> 
+ 
+    </main> 
+ 
+    <script> 
+ 
+        function showPage(page) { 
+ 
+            const content = document.getElementById("content"); 
+ 
+            content.classList.remove("page-content"); 
+ 
+            void content.offsetWidth; 
+ 
+            content.classList.add("page-content"); 
+ 
+ 
+            if (page === "profile") { 
+ 
+                content.innerHTML = ` 
+ 
+                    <h1 class="profile-title"> 
+                        PROFİL 
+                    </h1> 
+ 
+                    <div class="profile-top"> 
+ 
+                        <div class="profile-card"> 
+ 
+                            <div class="card-title"> 
+                                OYUNCU TANITIMI 
+                            </div> 
+ 
+                            <div class="profile-player"> 
+ 
+                                <div class="profile-photo"> 
+ 
+                                    <img 
+                                        src="data:image/jpeg;base64,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" alt="" width="236" height="236" />
+                    alt="Albert Wesker"
+                >
+
+                                        alt="HypEiswskr Profil Fotoğrafı" 
+                                    > 
+ 
+                                </div> 
+ 
+                                <div> 
+ 
+                                    <div class="nickname"> 
+                                        <span>HypEiswskr</span> 
+                                        <span class="steam-level">12</span> 
+                                    </div> 
+ 
+                                    <div class="location"> 
+                                        Giresun, Turkey 🇹🇷 
+                                    </div> 
+ 
+                                </div> 
+ 
+                            </div> 
+ 
+                        </div> 
+ 
+                        <div class="profile-card"> 
+ 
+                            <div class="card-title"> 
+                                OYUN TARZI 
+                            </div> 
+ 
+                            <div class="style-main"> 
+                                Agresif / Rifler 
+                            </div> 
+ 
+                            <div class="style-sub"> 
+                                Entry 
+                            </div> 
+ 
+                        </div> 
+ 
+                    </div> 
+ 
+                    <div class="profile-bottom"> 
+ 
+                        <div class="maps-card"> 
+ 
+                            <div class="card-title"> 
+                                FAVORİ 3 HARİTA 
+                            </div> 
+ 
+                            <div class="maps-list"> 
+ 
+                                <div class="map"> 
+                                    <span class="map-number">#1</span> 
+                                    <span class="map-name">Inferno</span> 
+                                </div> 
+ 
+                                <div class="map"> 
+                                    <span class="map-number">#2</span> 
+                                    <span class="map-name">Dust 2</span> 
+                                </div> 
+ 
+                                <div class="map"> 
+                                    <span class="map-number">#3</span> 
+                                    <span class="map-name">Mirage</span> 
+                                </div> 
+ 
+                            </div> 
+ 
+                            <div class="favorite-map"> 
+ 
+                                <span class="favorite-map-label"> 
+                                    FAVORİ HARİTA 
+                                </span> 
+ 
+                                <span class="favorite-map-name"> 
+                                    Inferno 
+                                </span> 
+ 
+                            </div> 
+ 
+                        </div> 
+ 
+                        <div class="highlights-card"> 
+ 
+                            <div class="card-title"> 
+                                İLGİNÇ DURUMLAR 
+                            </div> 
+ 
+                            <div class="highlights-list"> 
+ 
+                                <div class="highlight-box"> 
+ 
+                                    <div class="highlight-value"> 
+                                        TEK MAÇTA 43 KILL 
+                                    </div> 
+ 
+                                    <div class="highlight-label"> 
+                                        Inferno 
+                                    </div> 
+ 
+                                </div> 
+ 
+                                <div class="highlight-box"> 
+ 
+                                    <div class="highlight-value"> 
+                                        2 GÜNDE 22 MAÇ 
+                                    </div> 
+ 
+                                    <div class="highlight-label"> 
+                                        FACEIT 
+                                    </div> 
+ 
+                                </div> 
+ 
+                                <div class="highlight-box"> 
+ 
+                                    <div class="highlight-value"> 
+                                        2.10 RATING 
+                                    </div> 
+ 
+                                    <div class="highlight-label"> 
+                                        FACEIT 
+                                    </div> 
+ 
+                                </div> 
+ 
+                            </div> 
+ 
+                        </div> 
+ 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (page === "settings") { 
+ 
+                content.innerHTML = ` 
+ 
+                    <div id="settings-main"> 
+ 
+                        <h1 class="profile-title"> 
+                            OYUN İÇİ AYARLAR 
+                        </h1> 
+ 
+                        <div class="settings-menu"> 
+ 
+                            <a 
+                                href="#" 
+                                class="settings-tab" 
+                                onclick="showSetting('crosshair'); return false;" 
+                            > 
+ 
+                                <span class="settings-tab-name"> 
+                                    Crosshair Ayarları 
+                                </span> 
+ 
+                                <span class="settings-arrow"> 
+                                    → 
+                                </span> 
+ 
+                            </a> 
+ 
+                            <a 
+                                href="#" 
+                                class="settings-tab" 
+                                onclick="showSetting('video'); return false;" 
+                            > 
+ 
+                                <span class="settings-tab-name"> 
+                                    Görüntü Ayarları 
+                                </span> 
+ 
+                                <span class="settings-arrow"> 
+                                    → 
+                                </span> 
+ 
+                            </a> 
+ 
+                            <a 
+                                href="#" 
+                                class="settings-tab" 
+                                onclick="showSetting('advanced-video'); return false;" 
+                            > 
+ 
+                                <span class="settings-tab-name"> 
+                                    Gelişmiş Görüntü Ayarları 
+                                </span> 
+ 
+                                <span class="settings-arrow"> 
+                                    → 
+                                </span> 
+ 
+                            </a> 
+ 
+                            <a 
+                                href="#" 
+                                class="settings-tab" 
+                                onclick="showSetting('mouse'); return false;" 
+                            > 
+ 
+                                <span class="settings-tab-name"> 
+                                    Fare Ayarları 
+                                </span> 
+ 
+                                <span class="settings-arrow"> 
+                                    → 
+                                </span> 
+ 
+                            </a> 
+ 
+                            <a 
+                                href="#" 
+                                class="settings-tab" 
+                                onclick="showSetting('audio'); return false;" 
+                            > 
+ 
+                                <span class="settings-tab-name"> 
+                                    Ses Ayarları 
+                                </span> 
+ 
+                                <span class="settings-arrow"> 
+                                    → 
+                                </span> 
+ 
+                            </a> 
+ 
+                            <a 
+                                href="#" 
+                                class="settings-tab" 
+                                onclick="showSetting('chat'); return false;" 
+                            > 
+ 
+                                <span class="settings-tab-name"> 
+                                    Sohbet Ayarları 
+                                </span> 
+ 
+                                <span class="settings-arrow"> 
+                                    → 
+                                </span> 
+ 
+                            </a> 
+ 
+                            <a 
+                                href="#" 
+                                class="settings-tab" 
+                                onclick="showSetting('hud'); return false;" 
+                            > 
+ 
+                                <span class="settings-tab-name"> 
+                                    Gösterge Ayarları 
+                                </span> 
+ 
+                                <span class="settings-arrow"> 
+                                    → 
+                                </span> 
+ 
+                            </a> 
+ 
+                        </div> 
+ 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (page === "mapstats") { 
+ 
+                showMapStats(); 
+ 
+            } 
+ 
+        } 
+ 
+ 
+        function showMapStats() { 
+ 
+            const content = document.getElementById("content"); 
+ 
+            content.innerHTML = ` 
+ 
+                <div class="setting-page"> 
+ 
+                    <div class="setting-top"> 
+ 
+                        <h1 class="setting-page-title"> 
+                            HARİTA İSTATİSTİKLERİ 
+                        </h1> 
+ 
+                    </div> 
+ 
+                    <div class="map-stats-note"> 
+                        Not: Bu istatistikler oyuncunun bulunduğu seviyeye göre hesaplanmıştır. 
+                    </div> 
+ 
+                    <div class="map-stats-grid"> 
+ 
+                        ${createMapCard("Inferno", 4.8)} 
+                        ${createMapCard("Dust 2", 4.0)} 
+                        ${createMapCard("Mirage", 3.9)} 
+                        ${createMapCard("Nuke", 4.0)} 
+                        ${createMapCard("Overpass", 3.6)} 
+                        ${createMapCard("Ancient", 3.8)} 
+                        ${createMapCard("Cache", 3.0)} 
+                        ${createMapCard("Vertigo", 3.3)} 
+ 
+                    </div> 
+ 
+                </div> 
+ 
+            `; 
+ 
+        } 
+ 
+ 
+        function createMapCard(mapName, rating) { 
+ 
+            const percentage = (rating / 5) * 100; 
+ 
+            return ` 
+ 
+                <div class="map-stat-card"> 
+ 
+                    <div class="map-stat-top"> 
+ 
+                        <div class="map-stat-name"> 
+                            ${mapName} 
+                        </div> 
+ 
+                        <div class="map-stat-score"> 
+                            ${rating.toFixed(1)} / 5 
+                        </div> 
+ 
+                    </div> 
+ 
+                    <div 
+                        class="stars" 
+                        style="--rating: ${percentage}%" 
+                    > 
+ 
+                        <div class="stars-empty"> 
+                            ★★★★★ 
+                        </div> 
+ 
+                        <div class="stars-fill"> 
+                            ★★★★★ 
+                        </div> 
+ 
+                    </div> 
+ 
+                </div> 
+ 
+            `; 
+ 
+        } 
+ 
+ 
+        function showSetting(setting) { 
+ 
+            const content = document.getElementById("content"); 
+ 
+            let title = ""; 
+            let rows = ""; 
+ 
+ 
+            if (setting === "crosshair") { 
+ 
+                title = "CROSSHAIR AYARLARI"; 
+ 
+                rows = ` 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Crosshair Tarzı</span> 
+                        <span class="setting-value">Klasik Sabit</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Dost Ateşi Retikül Uyarısı</span> 
+                        <span class="setting-value">Hayır</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Geri Tepme Takibi</span> 
+                        <span class="setting-value">Hayır</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Merkez Nokta</span> 
+                        <span class="setting-value">Hayır</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Uzunluk</span> 
+                        <span class="setting-value">2.5</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Kalınlık</span> 
+                        <span class="setting-value">0.0</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Boşluk</span> 
+                        <span class="setting-value">-0.2</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Dış Çizgi</span> 
+                        <span class="setting-value">Kapalı</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">1.0</span> 
+                        <span class="setting-value">1.0</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Kırmızı</span> 
+                        <span class="setting-value">50</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Yeşil</span> 
+                        <span class="setting-value">225</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Mavi</span> 
+                        <span class="setting-value">50</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Alfa</span> 
+                        <span class="setting-value">Açık — 225</span> 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (setting === "video") { 
+ 
+                title = "GÖRÜNTÜ AYARLARI"; 
+ 
+                rows = ` 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Görüntü Modu</span> 
+                        <span class="setting-value">Tam Ekran</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Görüntü Oranı</span> 
+                        <span class="setting-value">Normal 4:3</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Çözünürlük</span> 
+                        <span class="setting-value">1280 × 960</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Yenileme Hızı</span> 
+                        <span class="setting-value">179Hz</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Parlaklık</span> 
+                        <span class="setting-value">%91</span> 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (setting === "advanced-video") { 
+ 
+                title = "GELİŞMİŞ GÖRÜNTÜ AYARLARI"; 
+ 
+                rows = ` 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Oyuncu Kontrastını Artır</span> 
+                        <span class="setting-value">Açık</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Dikey Eşitleme</span> 
+                        <span class="setting-value">Devre Dışı</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">NVIDIA G-SYNC</span> 
+                        <span class="setting-value">Devre Dışı</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">NVIDIA Reflex Düşük Gecikme</span> 
+                        <span class="setting-value">Etkin</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Oyun İçi Maksimum FPS</span> 
+                        <span class="setting-value">320</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Menülerde Maksimum FPS</span> 
+                        <span class="setting-value">200</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Keskinliği Yumuşatma Modu</span> 
+                        <span class="setting-value">4x MSAA</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Evrensel Gölge Kalitesi</span> 
+                        <span class="setting-value">Düşük</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Dinamik Gölgeler</span> 
+                        <span class="setting-value">Sadece Güneş</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Model / Doku Detayı</span> 
+                        <span class="setting-value">Yüksek</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Doku Filtreleme Modu</span> 
+                        <span class="setting-value">Eşyönsüz Süzme 4x</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Shader Detayı</span> 
+                        <span class="setting-value">Düşük</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Parçacık Detayı</span> 
+                        <span class="setting-value">Düşük</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Ortam Gölgeleme</span> 
+                        <span class="setting-value">Orta</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Yüksek Dinamik Aralık</span> 
+                        <span class="setting-value">Kaliteli</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">FidelityFX Super Resolution</span> 
+                        <span class="setting-value">Devre Dışı (En Yüksek Kalite)</span> 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (setting === "mouse") { 
+ 
+                title = "FARE AYARLARI"; 
+ 
+                rows = ` 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">DPI</span> 
+                        <span class="setting-value">800</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Sensitivity</span> 
+                        <span class="setting-value">1.20</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">eDPI</span> 
+                        <span class="setting-value">960</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Polling Rate</span> 
+                        <span class="setting-value">1000Hz</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Ters Fare Hareketi</span> 
+                        <span class="setting-value">Kapalı</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Fare Hassasiyeti</span> 
+                        <span class="setting-value">0.95</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Yakınlaştırma Hassasiyeti Çarpanı</span> 
+                        <span class="setting-value">1.00</span> 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (setting === "audio") { 
+ 
+                title = "SES AYARLARI"; 
+ 
+                rows = ` 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Ana Ses</span> 
+                        <span class="setting-value">%75</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Ana Menü Ortam Sesi Seviyesi</span> 
+                        <span class="setting-value">%100</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Ekolayzer Profili</span> 
+                        <span class="setting-value">Net</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Sağ Sol İzolasyonu</span> 
+                        <span class="setting-value">%15</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Perspektif Düzeltme</span> 
+                        <span class="setting-value">Evet</span> 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (setting === "chat") { 
+ 
+                title = "SOHBET AYARLARI"; 
+ 
+                rows = ` 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Diğer Oyuncuların Ses Düzeyi</span> 
+                        <span class="setting-value">%70</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Ses Mikrofon Modu</span> 
+                        <span class="setting-value">Bas Konuş</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Kolay Bas Konuş</span> 
+                        <span class="setting-value">Hayır</span> 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+            else if (setting === "hud") { 
+ 
+                title = "GÖSTERGE AYARLARI"; 
+ 
+                rows = ` 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Gösterge Ölçeği</span> 
+                        <span class="setting-value">1.00</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Gösterge Rengi</span> 
+                        <span class="setting-value">Beyaz</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Oyuncu Sayısını Göster</span> 
+                        <span class="setting-value">Evet</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Topluluk Bildirimi Konumu</span> 
+                        <span class="setting-value">Sol Alt</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">Silah Simgeleri Nadirlik Renkleri</span> 
+                        <span class="setting-value">Hayır</span> 
+                    </div> 
+ 
+                    <div class="setting-row"> 
+                        <span class="setting-name">İzleyici Gösterge Rengini Değiştir</span> 
+                        <span class="setting-value">Hayır</span> 
+                    </div> 
+ 
+                `; 
+ 
+            } 
+ 
+ 
+            content.innerHTML = ` 
+ 
+                <div class="setting-page"> 
+ 
+                    <div class="setting-top"> 
+ 
+                        <h1 class="setting-page-title"> 
+                            ${title} 
+                        </h1> 
+ 
+                        <button 
+                            class="back-settings" 
+                            onclick="showPage('settings')" 
+                        > 
+ 
+                            <span class="back-arrow"> 
+                                ← 
+                            </span> 
+ 
+                            <span> 
+                                Oyun İçi Ayarlara Dön 
+                            </span> 
+ 
+                        </button> 
+ 
+                    </div> 
+ 
+                    <div class="setting-grid"> 
+ 
+                        <div class="setting-card"> 
+ 
+                            <div class="card-title"> 
+                                ${title} 
+                            </div> 
+ 
+                            <div class="setting-list"> 
+ 
+                                ${rows} 
+ 
+                            </div> 
+ 
+                        </div> 
+ 
+                    </div> 
+ 
+                </div> 
+ 
+            `; 
+ 
+        } 
+ 
+ 
+        showPage("profile"); 
+ 
+    </script> 
+ 
+</body> 
+</html>
